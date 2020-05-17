@@ -151,7 +151,7 @@ hammertime.on('panright panleft', function(ev) {
   if(ev.direction==4)
   speed += 40*0.0004;
   else
-  speed += 40*0.0004;
+  speed += -40*0.0004;
 });
  }
 
