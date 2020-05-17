@@ -17,7 +17,7 @@ let gallery = [
   texture3,
   texture4
 ];
-var scene,container = document.getElementById('container'),frustumSize=container.offsetWidth,aspectRatio,camera,width=container.offsetWidth,height = container.offsetHeight,renderer,time=0,resolution = new THREE.Vector2();  
+var scene,container = document.getElementById('container'),frustumSize=container.offsetWidth,aspectRatio,camera,width=container.offsetWidth,height = container.offsetHeight,renderer,time=0,resolution = new THREE.Vector2(),plane;  
 function init(){
     var aspect = container.offsetWidth / container.offsetHeight;
     console.log(width,height)
@@ -128,13 +128,6 @@ window.addEventListener( 'mousemove', onMouseMove, false );
     renderer.render(scene,camera);
     
 }
-
-
-
-
-
-
-
 let speed = 0;
 let position = 0;
 let override = false;
@@ -153,6 +146,7 @@ hammertime.on('panright panleft', function(ev) {
   else
   speed += -40*0.0004;
 });
+ plane.scale.set(2,1,1)
  }
 
 // hammertime.on('panleft',function(ev){
@@ -170,22 +164,26 @@ function raf() {
     let dif = i - position;
     document.getElementById('text').style.transform = "translateX("+dif*3000+"px)";
     position += dif*0.035;
-    if(i%4==0){
+    var check = i;
+    if(i<0){
+    check = Math.abs(4 + i);}
+    if(check%4==0){
       document.getElementById('value').innerHTML = "Work is Worship." ;
     }
-    else if(i%4==1){
+    else if(check%4==1){
       document.getElementById('value').innerHTML = "Nothing is Impossible." ;
     }
-    else if(i%4 ==2){
+    else if(check%4 ==2){
       document.getElementById('value').innerHTML = "Believe in Yourself." ;
     }
-    else if(i%4 ==3){
+    else if(check%4 ==3){
       document.getElementById('value').innerHTML = "Be Honest." ;
     }
     if(Math.abs(i - position)<0.001) {
     speed=0;
       position = i;
     }
+    console.log(position)
    plane.material.uniforms.progress.value = position;
 
   } 
