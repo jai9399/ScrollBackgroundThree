@@ -141,6 +141,23 @@ let override = false;
 document.addEventListener('wheel',function(event) {
   speed += event.deltaY*0.0004;
 });
+// document.addEventListener('touchmove',function(event){
+//    console.log(event)
+// });
+console.log(navigator.userAgent)
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+  var hammertime = new Hammer(window);
+hammertime.on('panright panleft', function(ev) {
+  if(ev.direction==4)
+  speed += 125*3*0.0004;
+  else
+  speed += -125*3*0.0004;
+});
+ }
+
+// hammertime.on('panleft',function(ev){
+//   speed+=-125*0.0004;
+// })
 
 function raf() {
 
@@ -151,7 +168,6 @@ function raf() {
 
     let i = Math.round(position);
     let dif = i - position;
-     console.log(position)
     document.getElementById('text').style.transform = "translateX("+dif*3000+"px)";
     position += dif*0.035;
     if(i%4==0){
@@ -179,7 +195,6 @@ function raf() {
 
   plane.material.uniforms.texture1.value = gallery[Math.abs(curslide)];
   plane.material.uniforms.texture2.value = gallery[Math.abs(nextslide)];
-  console.log(position,curslide,nextslide,speed);
   // console.log(speed,position);
   window.requestAnimationFrame(raf);
 }
