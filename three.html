@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="container">
+    </div>
+    <div id=text>
+            <p id="value">
+                The Power Of Freedom
+            </p>
+            
+    </div>
+    <script src="three.min.js"></script>
+    <script src="postprocessing.min.js"></script>
+    <script type="x-vertex/x-shader" id="vertexShader">
+        varying vec3 pos;
+        varying vec2 vUv;
+        varying vec3 Vposition;
+        uniform vec3 u_mouse;
+        void main(){
+          vUv = uv; 
+          Vposition = position;
+          gl_Position = projectionMatrix * modelViewMatrix*vec4(position,1.0);
+        }
+    </script>
+    <script type="x-fragment/x-shader" id="fragmentShader">
+        uniform vec2 u_resolution;
+        uniform float u_time;
+        uniform vec3 u_mouse;
+        uniform float progress;
+        varying vec2 vUv;    
+        varying vec3 Vposition;
+        uniform sampler2D texture1;
+        uniform sampler2D texture2;
+        uniform sampler2D texture3;
+        uniform sampler2D texture4;
+        uniform sampler2D texture5;
+        uniform float display;
+        void main(){
+            vec4 displace = texture2D(texture5,vUv.yx);
+            vec2 st = gl_FragCoord.xy/u_resolution;
+            vec2 dispuv = vUv;
+            vec4 color;
+            float p = fract(progress);
+            dispuv.y = mix(dispuv.y,displace.r-0.2,display);
+            /* if(progress == 0.0){
+                vec4 color = texture2D(texture1,dispuv);
+                color.r = texture2D(texture1,dispuv+vec2(0.0,0.5*display)).r;
+                color.g = texture2D(texture1,dispuv+vec2(0.0,1.0*display)).g;
+                color.b = texture2D(texture1,dispuv+vec2(0.0,2.0*display)).b;
+                gl_FragColor = color;
+            }
+            else if(progress == 1.0){
+                vec4 color = texture2D(texture2,dispuv);
+                color.r = texture2D(texture2,dispuv+vec2(0.0,0.5*display)).r;
+                color.g = texture2D(texture2,dispuv+vec2(0.0,1.0*display)).g;
+                color.b = texture2D(texture2,dispuv+vec2(0.0,2.0*display)).b;
+                gl_FragColor = color;
+            }
+            else if(progress == 2.0){
+                vec4 color = texture2D(texture3,dispuv);
+                color.r = texture2D(texture3,dispuv+vec2(0.0,0.5*display)).r;
+                color.g = texture2D(texture3,dispuv+vec2(0.0,1.0*display)).g;
+                color.b = texture2D(texture3,dispuv+vec2(0.0,2.0*display)).b;
+                gl_FragColor = color;
+            }
+            else{
+                vec4 color = texture2D(texture4,dispuv);
+                color.r = texture2D(texture4,dispuv+vec2(0.0,0.5*display)).r;
+                color.g = texture2D(texture4,dispuv+vec2(0.0,1.0*display)).g;
+                color.b = texture2D(texture4,dispuv+vec2(0.0,2.0*display)).b;
+                gl_FragColor = color;
+            } 
+           */
+           /* vec4 color = texture2D(texture1,vec2(dispuv.x+p,dispuv.y));
+           color.r = texture2D(texture1,dispuv+vec2(0.0,0.5*display)).r;
+           color.g = texture2D(texture1,dispuv+vec2(0.0,1.0*display)).g;
+           color.b = texture2D(texture1,dispuv+vec2(0.0,2.0*display)).b;*/
+           float bounds = step(0.,1.-(vUv.x+p));
+           float p1 = p - 1.; 
+           float bounds2 = step(0.,(vUv.x+p1));
+           color = texture2D(texture1,vec2(vUv.x + p*0.6,vUv.y))*bounds + texture2D(texture2,vec2(vUv.x+p1,vUv.y))*((bounds2));
+           gl_FragColor=color;
+          }
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>
