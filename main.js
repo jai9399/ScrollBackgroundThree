@@ -149,9 +149,9 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
   var hammertime = new Hammer(window);
 hammertime.on('panright panleft', function(ev) {
   if(ev.direction==4)
-  speed += 125*3*0.0004;
+  speed += 125*0.0004;
   else
-  speed += -125*3*0.0004;
+  speed += -125*0.0004;
 });
  }
 
